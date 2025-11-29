@@ -6,7 +6,12 @@ import kotlin.io.path.readText
 /**
  * Reads lines from the given input txt file.
  */
-fun readInput(name: String) = Path("src/$name.txt").readText().trim().lines()
+fun <T> readInput(clazz: Class<T>, name: String): List<String> {
+    val packageName = clazz.`package`?.name?.replace('.', '/')
+        ?: throw IllegalArgumentException("Package name not found for class ${clazz.name}")
+
+    return Path("src/${packageName}/$name.txt").readText().trim().lines()
+}
 
 /**
  * Converts string to md5 hash.
