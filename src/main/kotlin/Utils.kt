@@ -1,16 +1,11 @@
 import java.math.BigInteger
 import java.security.MessageDigest
-import kotlin.io.path.Path
-import kotlin.io.path.readText
 
 /**
  * Reads lines from the given input txt file.
  */
 fun <T> readInput(clazz: Class<T>, name: String): List<String> {
-    val packageName = clazz.`package`?.name?.replace('.', '/')
-        ?: throw IllegalArgumentException("Package name not found for class ${clazz.name}")
-
-    return Path("src/${packageName}/$name.txt").readText().trim().lines()
+    return clazz.getResource(name)!!.readText().lines()
 }
 
 /**
