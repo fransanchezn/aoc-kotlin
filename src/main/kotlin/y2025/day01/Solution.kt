@@ -33,11 +33,16 @@ fun main() {
         return matches
     }
 
-    val input = readInput(clazz, "InputData.txt")
     // 1071
-    part1(input).println()
+    val input1 = readInput(clazz, "InputData.txt")
+    val result1 = part1(input1)
+    result1.println()
+    check(result1 == 1071)
     // 6700
-    part2(input).println()
+    val input2 = readInput(clazz, "InputData.txt")
+    val result2 = part2(input2)
+    result2.println()
+    check(result2 == 6700)
 }
 
 fun moveDial(dial: Int, rotation: String): Int {
