@@ -2,27 +2,80 @@ package y2025.day01
 
 import println
 import readInput
+import kotlin.math.absoluteValue
 
 private val clazz = object{}.javaClass
 
 fun main() {
+
     fun part1(input: List<String>): Int {
-        return input.size
+        var dial = 50
+        var matches = 0
+        input.forEach {
+            dial = moveDial(dial, it)
+            if (dial % 100 == 0) {
+                matches++
+            }
+        }
+
+        return matches
     }
 
     fun part2(input: List<String>): Int {
-        return input.size
+        var dial = 50
+        var matches = 0
+        input.forEach {
+            val result = moveDial2(dial, it)
+            dial = result.first
+            matches += result.second
+        }
+
+        return matches
     }
 
-    // Test if implementation meets criteria from the description, like:
-    check(part1(listOf("test_input")) == 1)
-
-    // Or read a large test input from the `src/InputData_test.txt` file:
-    val testInput = readInput(clazz, "InputData_test.txt")
-    check(part1(testInput) == 1)
-
-    // Read the input from the `src/InputData.txt` file.
     val input = readInput(clazz, "InputData.txt")
+    // 1071
     part1(input).println()
+    // 6700
     part2(input).println()
+}
+
+fun moveDial(dial: Int, rotation: String): Int {
+    val direction = rotation.first()
+    val rotationNumber = rotation.drop(1).toInt()
+
+    return when(direction) {
+        'L' -> dial - rotationNumber
+        'R' -> dial + rotationNumber
+        else -> dial
+    }
+}
+
+fun moveDial2(dial: Int, rotation: String): Pair<Int, Int> {
+    val direction = rotation.first()
+    val rotationNumber = rotation.drop(1).toInt()
+
+    return when(direction) {
+        'L' -> moveDialLeft(dial, rotationNumber)
+        'R' -> moveDialRight(dial, rotationNumber)
+        else -> Pair(dial, 0)
+    }
+}
+
+fun moveDialLeft(dial: Int, rotationNumber: Int): Pair<Int, Int> {
+    val modRotationNumber = rotationNumber.mod(100)
+    val newDial = (dial - modRotationNumber)
+    var numberOfWraps = Math.floorDiv(rotationNumber, 100)
+    if (dial > 0 && newDial <= 0) {
+        numberOfWraps++
+    }
+
+    return Pair(newDial.mod(100), numberOfWraps)
+}
+
+fun moveDialRight(dial: Int, rotationNumber: Int): Pair<Int, Int> {
+    val newDial = (dial + rotationNumber)
+    val numberOfWraps = Math.floorDiv(newDial.absoluteValue, 100)
+
+    return Pair(newDial.mod(100), numberOfWraps)
 }
