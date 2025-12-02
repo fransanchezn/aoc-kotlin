@@ -38,6 +38,7 @@ fun main() {
     val result1 = part1(input1)
     result1.println()
     check(result1 == 1071)
+    
     // 6700
     val input2 = readInput(clazz, "InputData.txt")
     val result2 = part2(input2)
